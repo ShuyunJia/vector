@@ -56,7 +56,7 @@ $(riscv_dump): %.riscv.dump: %.riscv
 	$(RISCV_OBJDUMP) $< > $@
 
 $(riscv_out): %.riscv.out: %.riscv
-	$(RISCV_SIM) $< > $@
+	$(RISCV_SIM) $< |tee $@
 
 riscv: $(riscv_dump)
 
