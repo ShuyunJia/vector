@@ -31,8 +31,8 @@ vec_vvadd_asm:
 .align 3
 TestLdStVec:
     vpset vp0
-    vlw vv0, va0
-    vfmul.s vv1, vv0, vv0
+    vld vv0, va0
+    vfmul.d vv1, vv0, vv0
     #vaddw vv0, vv0, vv0
     vsw vv1, va1
     vstop

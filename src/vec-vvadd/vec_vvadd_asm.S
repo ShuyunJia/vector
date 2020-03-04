@@ -14,8 +14,10 @@
 # a2 has float* x
 # a3 has float* y
 vec_vvadd_asm:
-    li a4, VCFG(3, 0, 0, 1)
+    #li a4, VCFG(1, 4, 0, 1)
+    li a4, VCFG(0, 4, 0, 2)
     vsetcfg a4
+
 stripmine:
     vsetvl t0, a0 #a0 is requested vec len, actual is placed in t0
     vmca va0, a2
@@ -23,6 +25,7 @@ stripmine:
     vmca va2, a1
     la t5, vvadd_v
     vf 0(t5)
+
     slli t1, t0, 2
     add a1, a1, t1
     add a2, a2, t1
@@ -36,8 +39,14 @@ stripmine:
 .align 3
 vvadd_v:
     vpset vp0
-    vlw vv0, va0
-    vlw vv1, va1
-    vfadd.s vv2, vv0, vv1
-    vsw vv2, va2
+    #vcmpeq vp1, vv2, vs0
+    vlw vv1, va0
+    vlw vv2, va1
+    vlw vv3, va1
+    #vfmin.s vv0, vv1, vv2
+    #vfsgnjn.s vv0, vv1, vv2
+    vfmadd.s vv0, vv1, vv2, vv3
+#@!vp1 vfirst vs1, vv1
+    vsw vv0, va2
+    #vssd vs1, vs0
     vstop
